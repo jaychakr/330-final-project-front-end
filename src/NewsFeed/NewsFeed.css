@@ -1,0 +1,18 @@
+.search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.search input, .search button {
+    width: 175px;
+}
+
+.loadMore {
+    width: 50%;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}

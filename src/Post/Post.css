@@ -1,0 +1,64 @@
+.post {
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.heading, .user {
+    display: flex; 
+}
+
+.heading {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.delete {
+    width: 20%;
+    height: 50%;
+    background-color: #dc3545;
+    color: white;
+}
+
+.profile-photo {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-link {
+    color: black;
+    text-decoration: none;
+}
+
+.post-photo {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.comments {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.newComment {
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    width: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+textarea {
+    width: 97%;
+}
+
+@media only screen and (min-width: 992px) {
+    textarea {
+        width: 99%;
+    }
+}

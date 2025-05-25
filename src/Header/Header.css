@@ -1,0 +1,14 @@
+header {
+    display: flex;
+    justify-content: space-around;
+    height: 75px;
+    align-items: center;
+}
+
+header img, .home-link {
+    height: 100%;
+}
+
+header button {
+    border-radius: 10px;
+}

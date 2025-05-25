@@ -1,0 +1,23 @@
+#root {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button, a, .submit {
+  cursor: pointer;
+}
+
+.content {
+  margin: 0 auto;
+}
+
+@media only screen and (min-width: 992px) {
+  .content {
+    width: 60%;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .content {
+    width: 50%;
+  }
+}

@@ -1,0 +1,14 @@
+textarea {
+    border-radius: 8px;
+}
+
+.addPost {
+    width: 75%;
+    margin: 0 auto;
+}
+
+@media only screen and (min-width: 992px) {
+  .addPost {
+    width: 50%;
+  }
+}

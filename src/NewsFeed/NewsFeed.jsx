@@ -1,0 +1,66 @@
+import './NewsFeed.css'
+import { useState, useEffect } from "react";
+import Post from '../Post/Post';
+function NewsFeed() {
+  const [posts, setPosts] = useState([]);
+  const [keyword, setKeyword] = useState("");
+  const [skip, setSkip] = useState(0);
+  const limit = 3;
+  useEffect(() => {
+    const downloadPosts = async() => {
+      try {
+        const response = await fetch('https://330-final-project-production-95c7.up.railway.app/posts');
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+        const newPosts = await response.json();
+        setPosts(newPosts);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    };
+  downloadPosts();
+  }, []);
+  const searchByKeyword = async () => {
+    if (keyword) {
+      try {
+        const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/posts/search/${keyword}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+        const newPosts = await response.json();
+        setPosts(newPosts);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    }
+  }
+  const loadMorePosts = async () => {
+    try {
+      const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/posts?skip=${skip + 3}&limit=${limit}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch posts');
+      }
+      const newPosts = await response.json();
+      setPosts([...posts, ...newPosts]);
+      setSkip(skip + 3);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    } 
+  }
+  return (
+    <div className="newsFeed">
+      <div className="search">
+        Find a post by keyword:
+        <input value={keyword} onChange={(e) => setKeyword(e.target.value)}/>
+        <button onClick={searchByKeyword}>Search</button>
+      </div>
+      {posts.map((post) => (
+        <Post key={post._id} post={post} posts={posts} setPosts={setPosts}/>
+      ))}
+      <button onClick={loadMorePosts} className='loadMore'><b>Load More Posts</b></button>
+    </div>
+  );
+}
+
+export default NewsFeed;

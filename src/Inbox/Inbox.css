@@ -1,0 +1,10 @@
+.inbox {
+    width: 50%;
+    margin: 0 auto;
+}
+
+@media only screen and (min-width: 992px) {
+  .inbox {
+    width: 25%;
+  }
+}
