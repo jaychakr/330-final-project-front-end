@@ -10,7 +10,7 @@ function Inbox() {
     useEffect(() => {
         const getConversations = async() => {
             try {
-                const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/conversations/${user.userId}`, {
+                const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/conversations/byUserId/${user.userId}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

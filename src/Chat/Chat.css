@@ -1,7 +1,28 @@
-li {
+.messages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.message {
     background-color: #0d6efd;
     border-radius: 8px;
-    margin: 10px;
     padding: 10px;
-    list-style-type: none;
+    width: 50%;
+    border: 1px solid black;
+}
+
+.recipient {
+   align-self: flex-end;
+}
+
+.sender {
+    background-color: #EEEFEE;
+}
+
+.profile-picture {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
 }
