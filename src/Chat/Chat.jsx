@@ -14,7 +14,6 @@ const Chat = () => {
 	const [text, setText] = useState('');
 	const [socket, setSocket] = useState(null);
 	const [user1, setUser1] = useState(null);
-	const [user2, setUser2] = useState(null);
 	const [user1PhotoUrl, setUser1PhotoUrl] = useState(null);
 	const [user2PhotoUrl, setUser2PhotoUrl] = useState(null);
 	const sendMessage = () => {
@@ -33,7 +32,6 @@ const Chat = () => {
 				});
 				const conversation = await response.json();
 				setUser1(conversation.userId1.toString());
-				setUser2(conversation.userId2.toString());
 				await getDownloadURL(ref(storage, conversation.userId1.toString()))
 					.then((url) => {
 						setUser1PhotoUrl(url);
