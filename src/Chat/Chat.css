@@ -11,6 +11,10 @@
     padding: 10px;
     width: 50%;
     border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
 }
 
 .recipient {
@@ -25,4 +29,17 @@
     height: 50px;
     width: 50px;
     border-radius: 50%;
+}
+
+.typeMessage {
+    width: 75%;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.sendMessage {
+    width: 50%;
+    display: block;
+    margin: 0 auto;
 }

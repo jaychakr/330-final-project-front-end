@@ -3,11 +3,12 @@ import instagram2 from '../assets/instagram2.jpg';
 import instagram2_home from '../assets/instagram2_home.jpg';
 import { jwtDecode } from 'jwt-decode';
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ref, getDownloadURL } from "firebase/storage";
 import storage from "../db.js";
 function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
   const token = localStorage.getItem('authToken');
   const user = token ? jwtDecode(token) : null;
   const [userPhotoUrl, setUserPhotoUrl] = useState(null);
@@ -28,6 +29,7 @@ function Header() {
   const logout = () => {
     localStorage.setItem('authToken', '');
     setUserPhotoUrl(null);
+    navigate('/');
   }
   return (
     <header>

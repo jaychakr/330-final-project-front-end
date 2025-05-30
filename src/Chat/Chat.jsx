@@ -16,6 +16,8 @@ const Chat = () => {
 	const [user1, setUser1] = useState(null);
 	const [user1PhotoUrl, setUser1PhotoUrl] = useState(null);
 	const [user2PhotoUrl, setUser2PhotoUrl] = useState(null);
+	const [user1Username, setUser1Username] = useState(null);
+	const [user2Username, setUser2Username] = useState(null);
 	const sendMessage = () => {
 		if (text && user) {
 			socket.emit('chat message', { user: user.username, userId: user.userId, message: text, conversationId });
@@ -46,6 +48,18 @@ const Chat = () => {
 					.catch((e) => {
 						alert(e);
 					});
+				const response1 = await fetch(`https://330-final-project-production-95c7.up.railway.app/auth/details/${conversation.userId1.toString()}`);
+				if (!response1.ok) {
+					throw new Error('Failed to fetch user1 info');
+				}
+				const userInfo1 = await response1.json();
+				setUser1Username(userInfo1.username);
+				const response2 = await fetch(`https://330-final-project-production-95c7.up.railway.app/auth/details/${conversation.userId2.toString()}`);
+				if (!response2.ok) {
+					throw new Error('Failed to fetch user2 info');
+				}
+				const userInfo2 = await response2.json();
+				setUser2Username(userInfo2.username);
 			} catch (error) {
 				console.error('Error fetching conversation:', error);
 			}
@@ -74,11 +88,11 @@ const Chat = () => {
 	}, [conversationId, token]);
 	return (
 		<div>
-			<h2>Chat Room</h2>
+			<center><h2>Chat Room with {user.userId.toString() === user1 ? user2Username : user1Username}</h2></center>
 			<div className='messages'>
 				{messages.map((message, index) => (
 					<div key={index} className={`message ${message.user === user.username ? 'recipient' : 'sender'}`}>
-						<img src={message.userId.toString() === user1 ? user1PhotoUrl : user2PhotoUrl} className="profile-picture"/><strong>{message.user}:</strong> {message.message}
+						<img src={message.userId.toString() === user1 ? user1PhotoUrl : user2PhotoUrl} className="profile-picture"/><strong>{message.userId.toString() === user1 ? user1Username : user2Username}:</strong> {message.message}
 					</div>
 				))}
 			</div>
@@ -88,8 +102,9 @@ const Chat = () => {
 					placeholder="Type your message..."
 					value={text}
 					onChange={(e) => setText(e.target.value)}
+					className="typeMessage"
 				/>
-				<button onClick={sendMessage}>Send</button>
+				<button onClick={sendMessage} className="sendMessage">Send</button>
 			</div>
 		</div>
 	);
