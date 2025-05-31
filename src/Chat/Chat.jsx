@@ -1,6 +1,6 @@
 import './Chat.css';
 import React, { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
 import { io } from 'socket.io-client';
 import { ref, getDownloadURL } from "firebase/storage";
@@ -20,7 +20,7 @@ const Chat = () => {
 	const [user2Username, setUser2Username] = useState(null);
 	const sendMessage = () => {
 		if (text && user) {
-			socket.emit('chat message', { user: user.username, userId: user.userId, message: text, conversationId });
+			socket.emit('chat message', { userId: user.userId, message: text, conversationId });
 			setText('');
 		}
 	};
@@ -66,7 +66,11 @@ const Chat = () => {
 		}
         const fetchMessages = async () => {
 		    try {
-			    const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/messages/${conversationId}`);
+				const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/messages/${conversationId}`, {
+					headers: {
+						'Authorization': `Bearer ${token}`
+					},
+				});
 			    const data = await response.json();
 			    setMessages(data);
 		    } catch (error) {
@@ -80,19 +84,27 @@ const Chat = () => {
     	newSocket.on('chat message', (msg) => {
 			if (msg.conversationId === conversationId) {
 				setMessages((prevMessages) => [...prevMessages, msg]);
-			} 
+			}
     	});
 		return () => {
       		newSocket.disconnect();
     	};
 	}, [conversationId, token]);
+	useEffect(() => {
+		window.scrollTo({
+			top: document.body.scrollHeight,
+			behavior: 'smooth'
+		});
+	}, [messages]);
 	return (
 		<div>
 			<center><h2>Chat Room with {user.userId.toString() === user1 ? user2Username : user1Username}</h2></center>
 			<div className='messages'>
 				{messages.map((message, index) => (
-					<div key={index} className={`message ${message.user === user.username ? 'recipient' : 'sender'}`}>
-						<img src={message.userId.toString() === user1 ? user1PhotoUrl : user2PhotoUrl} className="profile-picture"/><strong>{message.userId.toString() === user1 ? user1Username : user2Username}:</strong> {message.message}
+					<div key={index} className={`message ${message.userId === user.userId ? 'recipient' : 'sender'}`}>
+						<Link to={`/profile/${message.userId.toString()}`}><img src={message.userId.toString() === user1 ? user1PhotoUrl : user2PhotoUrl} className="profile-picture"/></Link>
+						<Link to={`/profile/${message.userId.toString()}`} className="user-link"><strong>{message.userId.toString() === user1 ? user1Username : user2Username}:</strong></Link>
+						{message.message}
 					</div>
 				))}
 			</div>
