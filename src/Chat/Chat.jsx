@@ -27,7 +27,7 @@ const Chat = () => {
 	useEffect(() => {
 		const getConversation = async () => {
 			try {
-				const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/conversations/${conversationId}`, {
+				const response = await fetch(`${import.meta.env.VITE_API_URL}/conversations/${conversationId}`, {
 					headers: {
 						'Authorization': `Bearer ${token}`
 					},
@@ -48,13 +48,13 @@ const Chat = () => {
 					.catch((e) => {
 						alert(e);
 					});
-				const response1 = await fetch(`https://330-final-project-production-95c7.up.railway.app/auth/details/${conversation.userId1.toString()}`);
+				const response1 = await fetch(`${import.meta.env.VITE_API_URL}/auth/details/${conversation.userId1.toString()}`);
 				if (!response1.ok) {
 					throw new Error('Failed to fetch user1 info');
 				}
 				const userInfo1 = await response1.json();
 				setUser1Username(userInfo1.username);
-				const response2 = await fetch(`https://330-final-project-production-95c7.up.railway.app/auth/details/${conversation.userId2.toString()}`);
+				const response2 = await fetch(`${import.meta.env.VITE_API_URL}/auth/details/${conversation.userId2.toString()}`);
 				if (!response2.ok) {
 					throw new Error('Failed to fetch user2 info');
 				}
@@ -66,7 +66,7 @@ const Chat = () => {
 		}
         const fetchMessages = async () => {
 		    try {
-				const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/messages/${conversationId}`, {
+				const response = await fetch(`${import.meta.env.VITE_API_URL}/messages/${conversationId}`, {
 					headers: {
 						'Authorization': `Bearer ${token}`
 					},
@@ -79,7 +79,7 @@ const Chat = () => {
 	    };
 		getConversation();
 		fetchMessages();
-		const newSocket = io('https://330-final-project-production-95c7.up.railway.app');
+		const newSocket = io(import.meta.env.VITE_API_URL);
     	setSocket(newSocket);
     	newSocket.on('chat message', (msg) => {
 			if (msg.conversationId === conversationId) {

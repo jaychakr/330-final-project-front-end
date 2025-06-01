@@ -20,7 +20,7 @@ function Profile() {
     useEffect(() => {
       const downloadUserDetails = async() => {
         try {
-          const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/auth/details/${userId}`);
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/details/${userId}`);
           if (!response.ok) {
             throw new Error('Failed to fetch user info');
           }
@@ -44,7 +44,7 @@ function Profile() {
       } 
       const downloadPosts = async() => {
         try {
-          const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/posts/byUserId/${userId}`);
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/posts/byUserId/${userId}`);
           if (!response.ok) {
             throw new Error('Failed to fetch posts');
           }
@@ -65,7 +65,7 @@ function Profile() {
         username: newUsername
       };
       try {
-        await fetch('https://330-final-project-production-95c7.up.railway.app/auth/username', {
+        await fetch(import.meta.env.VITE_API_URL + '/auth/username', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ function Profile() {
         bio: newBio
       };
       try {
-        await fetch('https://330-final-project-production-95c7.up.railway.app/auth/bio', {
+        await fetch(import.meta.env.VITE_API_URL + '/auth/bio', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

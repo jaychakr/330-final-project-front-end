@@ -7,7 +7,7 @@ function Conversation({conversation, sender}) {
     const recipientId = conversation.userId1 === sender ? conversation.userId2 : conversation.userId1;
     const getUsername = async() => {
       try {
-        const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/auth/details/${recipientId}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/details/${recipientId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch user info');
         }

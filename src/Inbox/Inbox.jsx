@@ -10,7 +10,7 @@ function Inbox() {
     useEffect(() => {
         const getConversations = async() => {
             try {
-                const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/conversations/byUserId/${user.userId}`, {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/conversations/byUserId/${user.userId}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -33,7 +33,7 @@ function Inbox() {
         const data = { username: recipient };
         const token = localStorage.getItem('authToken');
         try {
-            const response = await fetch('https://330-final-project-production-95c7.up.railway.app/conversations', {
+            const response = await fetch(import.meta.env.VITE_API_URL + '/conversations', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

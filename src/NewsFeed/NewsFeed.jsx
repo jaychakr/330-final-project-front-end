@@ -9,7 +9,7 @@ function NewsFeed() {
   useEffect(() => {
     const downloadPosts = async() => {
       try {
-        const response = await fetch('https://330-final-project-production-95c7.up.railway.app/posts');
+        const response = await fetch(import.meta.env.VITE_API_URL + '/posts');
         if (!response.ok) {
           throw new Error('Failed to fetch posts');
         }
@@ -24,7 +24,7 @@ function NewsFeed() {
   const searchByKeyword = async () => {
     if (keyword) {
       try {
-        const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/posts/search/${keyword}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/posts/search/${keyword}`);
         if (!response.ok) {
           throw new Error('Failed to fetch posts');
         }
@@ -37,7 +37,7 @@ function NewsFeed() {
   }
   const loadMorePosts = async () => {
     try {
-      const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/posts?skip=${skip + 3}&limit=${limit}`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/posts?skip=${skip + 3}&limit=${limit}`);
       if (!response.ok) {
         throw new Error('Failed to fetch posts');
       }

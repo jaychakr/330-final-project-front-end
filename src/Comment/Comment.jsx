@@ -22,7 +22,7 @@ function Comment({comment}) {
     }
     const getUsername = async() => {
       try {
-        const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/auth/details/${comment.userId}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/details/${comment.userId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch user info');
         }
@@ -39,7 +39,7 @@ function Comment({comment}) {
   const deleteComment = async () => {
     setDeleted(true);
     try {
-      await fetch(`https://330-final-project-production-95c7.up.railway.app/comments/byCommentId/${comment._id}`, { 
+      await fetch(`${import.meta.env.VITE_API_URL}/comments/byCommentId/${comment._id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

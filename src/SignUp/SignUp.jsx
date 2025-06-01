@@ -19,7 +19,7 @@ function SignUp() {
         }
         const data = { email, username, password };
         try {
-            const response = await fetch('https://330-final-project-production-95c7.up.railway.app/auth/signup', {
+            const response = await fetch(import.meta.env.VITE_API_URL + '/auth/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

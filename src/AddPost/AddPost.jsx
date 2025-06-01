@@ -17,7 +17,7 @@ function AddPost() {
         };
         const token = localStorage.getItem('authToken');
         try {
-            const response = await fetch('https://330-final-project-production-95c7.up.railway.app/posts', {
+            const response = await fetch(import.meta.env.VITE_API_URL + '/posts', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

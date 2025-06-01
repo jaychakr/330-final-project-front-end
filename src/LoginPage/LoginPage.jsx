@@ -10,7 +10,7 @@ function LoginPage() {
         e.preventDefault();
         const data = { username, password };
         try {
-            const response = await fetch('https://330-final-project-production-95c7.up.railway.app/auth/login', {
+            const response = await fetch(import.meta.env.VITE_API_URL + '/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

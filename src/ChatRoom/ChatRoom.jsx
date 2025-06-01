@@ -9,7 +9,7 @@ const ChatRoom = () => {
 	const [socket, setSocket] = useState(null);
 	const fetchMessages = async () => {
 		try {
-			const response = await fetch('https://330-final-project-production-95c7.up.railway.app/messages');
+			const response = await fetch(import.meta.env.VITE_API_URL + '/messages');
 			const data = await response.json();
 			setMessages(data);
 		} catch (error) {
@@ -24,7 +24,7 @@ const ChatRoom = () => {
 	};
 	useEffect(() => {
 		fetchMessages();
-		const newSocket = io('https://330-final-project-production-95c7.up.railway.app');
+		const newSocket = io(import.meta.env.VITE_API_URL);
     	setSocket(newSocket);
     	newSocket.on('chat message', (msg) => {
       		setMessages((prevMessages) => [...prevMessages, msg]);

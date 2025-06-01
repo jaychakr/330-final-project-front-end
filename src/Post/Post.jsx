@@ -21,7 +21,7 @@ function Post({post}) {
   useEffect(() => {
     const getPost = async() => {
       try {
-        const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/posts/byPostId/${postId}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/posts/byPostId/${postId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch post');
         }
@@ -34,7 +34,7 @@ function Post({post}) {
     }
     const getUsername = async() => {
       try {
-        const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/auth/details/${postRef.current.userId}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/details/${postRef.current.userId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch user info');
         }
@@ -65,7 +65,7 @@ function Post({post}) {
     }
     const getComments = async() => {
       try {
-        const response = await fetch(`https://330-final-project-production-95c7.up.railway.app/comments/${postRef.current._id}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/comments/${postRef.current._id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch comments');
         }
@@ -103,7 +103,7 @@ function Post({post}) {
         };
         const token = localStorage.getItem('authToken');
         try {
-          const response = await fetch('https://330-final-project-production-95c7.up.railway.app/comments', {
+          const response = await fetch(import.meta.env.VITE_API_URL + '/comments', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -123,7 +123,7 @@ function Post({post}) {
   const deletePost = async () => {
     setDeleted(true);
     try {
-      await fetch(`https://330-final-project-production-95c7.up.railway.app/posts/byPostId/${postRef.current._id}`, { 
+      await fetch(`${import.meta.env.VITE_API_URL}/posts/byPostId/${postRef.current._id}`, { 
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
