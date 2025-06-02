@@ -22,17 +22,18 @@ function NewsFeed() {
   downloadPosts();
   }, []);
   const searchByKeyword = async () => {
-    if (keyword) {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/posts/search/${keyword}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch posts');
-        }
-        const newPosts = await response.json();
-        setPosts(newPosts);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
+    try {
+      const response = keyword ? await fetch(`${import.meta.env.VITE_API_URL}/posts/search/${keyword}`) : await fetch(`${import.meta.env.VITE_API_URL}/posts?skip=0&limit=3`);
+      if (!response) {
+        setSkip(0);
       }
+      if (!response.ok) {
+        throw new Error('Failed to fetch posts');
+      }
+      const newPosts = await response.json();
+      setPosts(newPosts);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
     }
   }
   const loadMorePosts = async () => {

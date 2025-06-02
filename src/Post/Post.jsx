@@ -92,7 +92,7 @@ function Post({post}) {
     };
     fetchData();
   }, [postId]);
-  const checkAuth = async () => {
+  const addComment = async () => {
     if (!token) {
       navigate('/login');
     } else {
@@ -134,6 +134,7 @@ function Post({post}) {
     }
     const deleteRef = ref(storage, post._id);
     await deleteObject(deleteRef);
+    navigate(`/profile/${user.userId}`);
   };
   if (loading) {
     return <h1>Loading...</h1>;
@@ -160,7 +161,7 @@ function Post({post}) {
         }
       </div>
       <p><textarea onChange={(e) => setNewComment(e.target.value)} value={newComment}></textarea></p>
-      <button className="newComment" onClick={checkAuth}>Add a new Comment</button>
+      <button className="newComment" onClick={addComment}>Add a new Comment</button>
     </div>
   );
 }
