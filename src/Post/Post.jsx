@@ -1,6 +1,6 @@
 import './Post.css'
 import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import { ref, getDownloadURL, deleteObject } from "firebase/storage";
 import { jwtDecode } from 'jwt-decode';
 import storage from "../db.js";
@@ -8,6 +8,7 @@ import Comment from '../Comment/Comment';
 function Post({post}) {
   const postRef = useRef(post || null);
   const navigate = useNavigate();
+  const location = useLocation();
   const { postId } = useParams();
   const [username, setUsername] = useState("");
   const [userPhotoUrl, setUserPhotoUrl] = useState("https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg");
@@ -121,7 +122,8 @@ function Post({post}) {
     }
   }
   const deletePost = async () => {
-    setDeleted(true);
+    const deleteRef = ref(storage, postRef.current._id);
+    await deleteObject(deleteRef);
     try {
       await fetch(`${import.meta.env.VITE_API_URL}/posts/byPostId/${postRef.current._id}`, { 
         method: 'DELETE',
@@ -132,9 +134,10 @@ function Post({post}) {
     } catch(e) {
       console.log(e);
     }
-    const deleteRef = ref(storage, post._id);
-    await deleteObject(deleteRef);
-    navigate(`/profile/${user.userId}`);
+    setDeleted(true);
+    if (location.pathname !== '/') {
+      navigate(`/profile/${user.userId}`);
+    }
   };
   if (loading) {
     return <h1>Loading...</h1>;
