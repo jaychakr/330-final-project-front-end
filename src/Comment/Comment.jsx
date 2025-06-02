@@ -4,12 +4,11 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { Link } from "react-router-dom";
 import storage from "../db.js";
 import { jwtDecode } from 'jwt-decode';
-function Comment({comment}) {
+function Comment({comment, comments, setComments}) {
   const [userPhotoUrl, setUserPhotoUrl] = useState("https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg");
   const [username, setUsername] = useState("");
   const token = localStorage.getItem('authToken');
   const user = token ? jwtDecode(token) : null;
-  const [deleted, setDeleted] = useState(false);
   useEffect(() => {
     const getUserPhoto = async() => {
       await getDownloadURL(ref(storage, comment.userId))
@@ -37,7 +36,7 @@ function Comment({comment}) {
     getUserPhoto();
   }, [comment.userId]);
   const deleteComment = async () => {
-    setDeleted(true);
+    setComments(comments.filter(commentToFilter => commentToFilter !== comment));
     try {
       await fetch(`${import.meta.env.VITE_API_URL}/comments/byCommentId/${comment._id}`, {
         method: 'DELETE',
@@ -50,7 +49,7 @@ function Comment({comment}) {
     }
   };
   return (
-    <div className="comment" style={{ display: deleted ? 'none' : 'flex' }}>
+    <div className="comment">
       <div className="user">
         <Link to={`/profile/${comment.userId}`}><img src={userPhotoUrl}/></Link>
         <div className="text">

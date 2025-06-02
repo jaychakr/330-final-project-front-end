@@ -5,7 +5,7 @@ import { ref, getDownloadURL, deleteObject } from "firebase/storage";
 import { jwtDecode } from 'jwt-decode';
 import storage from "../db.js";
 import Comment from '../Comment/Comment';
-function Post({post}) {
+function Post({post, posts, setPosts}) {
   const postRef = useRef(post || null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -15,7 +15,6 @@ function Post({post}) {
   const [photoUrl, setPhotoUrl] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const [deleted, setDeleted] = useState(false);
   const token = localStorage.getItem('authToken');
   const user = token ? jwtDecode(token) : null;
   const [loading, setLoading] = useState(true);
@@ -134,8 +133,9 @@ function Post({post}) {
     } catch(e) {
       console.log(e);
     }
-    setDeleted(true);
-    if (location.pathname !== '/') {
+    if (location.pathname === '/') {
+      setPosts(posts.filter(postToFilter => postToFilter !== post))
+    } else {
       navigate(`/profile/${user.userId}`);
     }
   };
@@ -143,7 +143,7 @@ function Post({post}) {
     return <h1>Loading...</h1>;
   }
   return (
-    <div className="post" style={{ display: deleted ? 'none' : 'block' }}>
+    <div className="post">
       <div className="heading">
         <div className="user">
           <Link to={`/profile/${postRef.current.userId}`}><img src={userPhotoUrl} className="profile-photo"/></Link>
@@ -160,7 +160,7 @@ function Post({post}) {
       <p><b>Comments ({comments.length}):</b></p>
       <div className="comments">
         {
-          comments.map(comment => <Comment comment={comment} key={comment._id}/>)
+          comments.map(comment => <Comment comment={comment} comments={comments} setComments={setComments} key={comment._id}/>)
         }
       </div>
       <p><textarea onChange={(e) => setNewComment(e.target.value)} value={newComment}></textarea></p>
