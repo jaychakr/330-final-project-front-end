@@ -98,7 +98,11 @@ const Chat = () => {
 	}, [messages]);
 	return (
 		<div>
-			<center><h2>Chat Room with {user.userId.toString() === user1 ? user2Username : user1Username}</h2></center>
+			<div className="conversation-header">
+				<h2>Chat Room with </h2>
+				<img src={user.userId.toString() === user1 ? user2PhotoUrl : user1PhotoUrl} className="partner"/>
+				<h2>{user.userId.toString() === user1 ? user2Username : user1Username}</h2>
+			</div>
 			<div className='messages'>
 				{messages.map((message, index) => (
 					<div key={index} className={`message ${message.userId === user.userId ? 'recipient' : 'sender'}`}>

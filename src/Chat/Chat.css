@@ -1,3 +1,17 @@
+.conversation-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.partner {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
 .messages {
     display: flex;
     flex-direction: column;
