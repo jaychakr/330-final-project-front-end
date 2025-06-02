@@ -153,7 +153,7 @@ function Post({post}) {
         postRef.current.fileType === 'image' ? <img src={photoUrl} className="post-photo"/> : <video src={photoUrl + '#t=0.001'} controls playsInline className="post-photo" />
       }
       <p>{postRef.current.description}</p>
-      <p><b>Comments:</b></p>
+      <p><b>Comments ({comments.length}):</b></p>
       <div className="comments">
         {
           comments.map(comment => <Comment comment={comment} key={comment._id}/>)

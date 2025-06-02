@@ -1,5 +1,5 @@
 import './ChatRoom.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 
 const ChatRoom = () => {
@@ -7,9 +7,14 @@ const ChatRoom = () => {
 	const [user, setUser] = useState('');
 	const [message, setMessage] = useState('');
 	const [socket, setSocket] = useState(null);
+	const tokenRef = useRef(localStorage.getItem('authToken'));
 	const fetchMessages = async () => {
 		try {
-			const response = await fetch(import.meta.env.VITE_API_URL + '/messages');
+			const response = await fetch(import.meta.env.VITE_API_URL + '/messages', {
+					headers: {
+						'Authorization': `Bearer ${tokenRef.current}`
+					},
+				});
 			const data = await response.json();
 			setMessages(data);
 		} catch (error) {
@@ -39,7 +44,7 @@ const ChatRoom = () => {
 			<ul>
 				{messages.map((message) => (
 					<li key={String(message._id)}>
-						<strong>{message.user}:</strong> {message.message}
+						<strong>{message.userId}:</strong> {message.message}
 					</li>
 				))}
 			</ul>
