@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import storage from "../db.js"
 function Tile({post}) {
   const [photoUrl, setPhotoUrl] = useState("https://1000logos.net/wp-content/uploads/2017/02/Instagram-Logo-2011.png");
+  const [objectFit, setObjectFit] = useState('contain');
   useEffect(() => {
     const getPhoto = async() => {
       await getDownloadURL(ref(storage, post._id))
@@ -17,13 +18,24 @@ function Tile({post}) {
     }
     getPhoto();
   }, [post._id]);
+  const handleLoadedMetadata = (event) => {
+    const video = event.target;
+    const naturalWidth = video.videoWidth;
+    const naturalHeight = video.videoHeight;
+    if (naturalWidth > naturalHeight) {
+      setObjectFit('cover');
+    } else {
+      setObjectFit('contain');
+    }
+  };
   return (
     <div className="tile">
       <Link to={`/post/${post._id}`}>
       {
         post.fileType === 'image' ? 
         <img src={photoUrl}/> : 
-        <video src={photoUrl} controls playsInline></video>
+        <video src={photoUrl} controls playsInline onLoadedMetadata={handleLoadedMetadata} style={{  objectFit: objectFit }}>
+        </video>
       }
       </Link>
     </div>
