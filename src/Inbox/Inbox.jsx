@@ -43,6 +43,9 @@ function Inbox() {
                 },
                 body: JSON.stringify(data),
             });
+            if (response.status === 400) {
+                throw new Error('user does not exist!');
+            }
             const conversation = await response.json();
             const duplicate = conversations.some(conversationToCheck => conversationToCheck._id.toString() === conversation._id.toString());
             if (duplicate) {
@@ -51,7 +54,7 @@ function Inbox() {
                 setConversations([conversation, ...conversations]);
             }
         } catch (error) {
-            alert('invalid login!');
+            alert(error);
             console.error('Error:', error);
         }
     }
