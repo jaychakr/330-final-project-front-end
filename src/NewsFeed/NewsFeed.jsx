@@ -24,7 +24,7 @@ function NewsFeed() {
   const searchByKeyword = async () => {
     try {
       const response = keyword ? await fetch(`${import.meta.env.VITE_API_URL}/posts/search/${keyword}`) : await fetch(`${import.meta.env.VITE_API_URL}/posts?skip=0&limit=3`);
-      if (!response) {
+      if (!keyword) {
         setSkip(0);
       }
       if (!response.ok) {
