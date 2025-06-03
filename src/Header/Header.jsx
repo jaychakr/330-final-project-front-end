@@ -35,7 +35,7 @@ function Header() {
     <header>
       <Link to="/" className="home-link"><img src={location.pathname === '/' ? instagram2_home : instagram2} className='logo'/></Link>
       {
-          user && <Link to="/inbox"><button>Message Inbox</button></Link>
+          user && <Link to="/inbox"><button>Inbox (Messages)</button></Link>
       }
       {
         userPhotoUrl && <Link to={`/profile/${user.userId}`}><img className="profile-photo" src={userPhotoUrl} /></Link>

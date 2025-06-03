@@ -1,12 +1,13 @@
 import './Profile.css'
 import { useState, useEffect } from "react";
 import Tile from '../Tile/Tile';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { ref, getDownloadURL } from "firebase/storage";
 import { jwtDecode } from 'jwt-decode';
 import storage from "../db.js"
 function Profile() {
     const { userId } = useParams();
+    const navigate = useNavigate();
     const [posts, setPosts] = useState([]);
     const [username, setUsername] = useState("");
     const [changeUsername, setChangeUsername] = useState(false);
@@ -96,6 +97,24 @@ function Profile() {
           console.error('Error:', error);
       }
     }
+    const startConversation = async () => {
+      const data = { username: username };
+      const token = localStorage.getItem('authToken');
+      try {
+        const response = await fetch(import.meta.env.VITE_API_URL + '/conversations', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(data),
+        });
+        const conversation = await response.json();
+        navigate(`/chat/${conversation._id}`);
+      } catch (error) {
+          console.error('Error:', error);
+      }
+    }
     return (
       <div className="profile">
         <div className="intro">
@@ -109,7 +128,8 @@ function Profile() {
               }
               {
                 changeUsername ? <button onClick={updateUsername}>Submit change</button> :
-                user && user.userId === userId && <button onClick={() => setChangeUsername(true)}>Change username</button>
+                user && (user.userId === userId ? <button onClick={() => setChangeUsername(true)}>Change username</button> :
+                <button className="startConversation" onClick={startConversation}>Message</button>)
               }
               {
                 changeUsername && <button onClick={() => setChangeUsername(false)}>Cancel</button>
