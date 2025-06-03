@@ -1,8 +1,10 @@
 import "./Inbox.css";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
 import Conversation from '../Conversation/Conversation';
 function Inbox() {
+    const navigate = useNavigate();
     const [recipient, setRecipient] = useState("");
     const [conversations, setConversations] = useState([]);
     const [token] = useState(localStorage.getItem('authToken'));
@@ -42,7 +44,12 @@ function Inbox() {
                 body: JSON.stringify(data),
             });
             const conversation = await response.json();
-            setConversations([conversation, ...conversations]);
+            const duplicate = conversations.some(conversationToCheck => conversationToCheck._id.toString() === conversation._id.toString());
+            if (duplicate) {
+                navigate(`/chat/${conversation._id.toString()}`);
+            } else {
+                setConversations([conversation, ...conversations]);
+            }
         } catch (error) {
             alert('invalid login!');
             console.error('Error:', error);

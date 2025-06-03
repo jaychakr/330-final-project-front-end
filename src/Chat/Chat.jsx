@@ -14,6 +14,7 @@ const Chat = () => {
 	const [text, setText] = useState('');
 	const [socket, setSocket] = useState(null);
 	const [user1, setUser1] = useState(null);
+	const [user2, setUser2] = useState(null);
 	const [user1PhotoUrl, setUser1PhotoUrl] = useState(null);
 	const [user2PhotoUrl, setUser2PhotoUrl] = useState(null);
 	const [user1Username, setUser1Username] = useState(null);
@@ -34,6 +35,7 @@ const Chat = () => {
 				});
 				const conversation = await response.json();
 				setUser1(conversation.userId1.toString());
+				setUser2(conversation.userId2,toString());
 				await getDownloadURL(ref(storage, conversation.userId1.toString()))
 					.then((url) => {
 						setUser1PhotoUrl(url);
@@ -100,8 +102,8 @@ const Chat = () => {
 		<div>
 			<div className="conversation-header">
 				<h2>Chat Room with </h2>
-				<img src={user.userId.toString() === user1 ? user2PhotoUrl : user1PhotoUrl} className="partner"/>
-				<h2>{user.userId.toString() === user1 ? user2Username : user1Username}</h2>
+				<Link to={`/profile/${user.userId.toString() === user1 ? user2 : user1}`}><img src={user.userId.toString() === user1 ? user2PhotoUrl : user1PhotoUrl} className="partner"/></Link>
+				<Link to={`/profile/${user.userId.toString() === user1 ? user2 : user1}`} className="user-link"><h2>{user.userId.toString() === user1 ? user2Username : user1Username}</h2></Link>
 			</div>
 			<div className='messages'>
 				{messages.map((message, index) => (
