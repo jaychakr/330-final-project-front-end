@@ -18,7 +18,21 @@ footer button {
 
 @media only screen and (min-width: 992px) {
   footer {
+    width: 60%;
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  footer {
     width: 50%;
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (min-width: 1550px) {
+  footer {
+    width: 40%;
     margin: 0 auto;
   }
 }

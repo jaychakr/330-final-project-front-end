@@ -22,7 +22,7 @@ button, a, .submit {
   }
 }
 
-@media only screen and (min-width: 1500px) {
+@media only screen and (min-width: 1550px) {
   .content {
     width: 40%;
   }
