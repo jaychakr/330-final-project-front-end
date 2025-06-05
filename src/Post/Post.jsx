@@ -99,7 +99,7 @@ function Post({post, posts, setPosts}) {
       if (newComment.length) {
         const data = { 
           description: newComment,
-          postId: post._id
+          postId: postRef.current._id
         };
         const token = localStorage.getItem('authToken');
         try {
