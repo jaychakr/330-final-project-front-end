@@ -17,7 +17,6 @@ function Post({post, posts, setPosts}) {
   const [newComment, setNewComment] = useState("");
   const token = localStorage.getItem('authToken');
   const user = token ? jwtDecode(token) : null;
-  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const getPost = async() => {
       try {
@@ -80,7 +79,6 @@ function Post({post, posts, setPosts}) {
       if (!postRef.current) {
         postRef.current = await getPost();
       }
-      setLoading(false);
       try {
         await getUsername();
         await getUserPhoto();
@@ -139,9 +137,6 @@ function Post({post, posts, setPosts}) {
       navigate(`/profile/${user.userId}`);
     }
   };
-  if (loading) {
-    return <h1>Loading...</h1>;
-  }
   return (
     <div className="post">
       <div className="heading">

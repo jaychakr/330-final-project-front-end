@@ -6,6 +6,7 @@ function NewsFeed() {
   const [keyword, setKeyword] = useState("");
   const [skip, setSkip] = useState(0);
   const limit = 3;
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const downloadPosts = async() => {
       try {
@@ -19,7 +20,8 @@ function NewsFeed() {
         console.error('Error fetching posts:', error);
       }
     };
-  downloadPosts();
+    downloadPosts();
+    setLoading(false);
   }, []);
   const searchByKeyword = async () => {
     try {
@@ -48,6 +50,9 @@ function NewsFeed() {
     } catch (error) {
       console.error('Error fetching posts:', error);
     } 
+  }
+  if (loading) {
+    return <h1>Loading...</h1>;
   }
   return (
     <div className="newsFeed">
